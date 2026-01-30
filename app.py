@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="FreelanceFast",
     page_icon="⚡",
     layout="centered",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # --- CLEAN SAAS CSS (Notion/Linear Style) ---
@@ -159,17 +159,15 @@ st.title("FreelanceFast")
 st.markdown("Create winning proposals for Upwork & Fiverr in seconds.")
 st.markdown("</div>", unsafe_allow_html=True)
 
-if not api_key:
-    st.warning("🔒 **Please enter your API Key in the sidebar to start.**\n\nIt's free, secure, and takes 30 seconds.")
-    st.stop()
+# (Removido o bloqueio visual st.stop aqui)
 
-# Configure AI
-try:
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-pro-latest')
-except:
-    st.error("❌ Invalid API Key. Please check it.")
-    st.stop()
+# Configure AI (Lazy Loading)
+if api_key:
+    try:
+        genai.configure(api_key=api_key)
+        model = genai.GenerativeModel('gemini-1.5-pro-latest')
+    except:
+        pass # Handle error later on button click
 
 # STEP 1
 st.markdown('<h3><span class="step-badge">1</span>The Job</h3>', unsafe_allow_html=True)
@@ -209,7 +207,10 @@ with col2:
 st.markdown("<br>", unsafe_allow_html=True)
 
 if st.button("✨ Write Proposal"):
-    if not job_description or not user_skills:
+    if not api_key:
+        st.error("🔒 Please enter your Google API Key in the sidebar to generate results. It's free!")
+        st.sidebar.markdown("### ⬅️ Enter Key Here")
+    elif not job_description or not user_skills:
         st.error("Please fill in both the Job Description and Your Skills.")
     else:
         with st.spinner("Writing your proposal..."):
