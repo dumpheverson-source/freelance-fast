@@ -6,281 +6,232 @@ import os
 st.set_page_config(
     page_title="FreelanceFast",
     page_icon="⚡",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-# --- ADVANCED CSS (DEV/SAAS AESTHETIC) ---
+# --- CLEAN SAAS CSS (Notion/Linear Style) ---
 st.markdown("""
 <style>
-    /* Import Fonts: Inter (UI) & JetBrains Mono (Code/Data) */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
     /* BASE THEME */
     :root {
-        --bg-color: #0f172a;
-        --panel-color: #1e293b;
-        --border-color: #334155;
-        --text-primary: #f8fafc;
-        --text-secondary: #94a3b8;
-        --accent-color: #6366f1; /* Indigo 500 */
-        --accent-hover: #4f46e5; /* Indigo 600 */
-        --font-ui: 'Inter', sans-serif;
-        --font-mono: 'JetBrains Mono', monospace;
+        --primary-color: #2563eb; /* Royal Blue */
+        --bg-color: #ffffff;
+        --text-color: #0f172a;
+        --secondary-text: #64748b;
+        --border-color: #e2e8f0;
     }
 
     /* GLOBAL RESET */
     .stApp {
         background-color: var(--bg-color);
-        font-family: var(--font-ui);
-        color: var(--text-primary);
+        font-family: 'Inter', sans-serif;
+        color: var(--text-color);
     }
     
-    /* REMOVE STREAMLIT BLOAT */
+    /* HIDE STREAMLIT BRANDING */
+    #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
-    .css-1rs6os {visibility: hidden;}
-    .css-17ziqus {visibility: hidden;}
-    
+    footer {visibility: hidden;}
+
     /* TYPOGRAPHY */
-    h1, h2, h3 {
-        font-family: var(--font-ui);
+    h1 {
+        font-weight: 700;
         letter-spacing: -0.02em;
-        color: var(--text-primary);
-    }
-    
-    .mono-label {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--text-secondary);
+        font-size: 2.5rem;
         margin-bottom: 0.5rem;
-        display: block;
+    }
+    h3 {
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+    }
+    p {
+        color: var(--secondary-text);
+        line-height: 1.6;
     }
 
-    /* INPUT FIELDS (TERMINAL STYLE) */
+    /* INPUT FIELDS (CLEAN) */
     .stTextArea textarea {
-        background-color: var(--panel-color) !important;
         border: 1px solid var(--border-color) !important;
-        color: var(--text-primary) !important;
-        font-family: var(--font-mono) !important; /* Code font for inputs */
-        font-size: 0.9rem;
-        border-radius: 6px;
-        transition: border 0.2s ease;
+        border-radius: 8px;
+        padding: 12px;
+        font-family: 'Inter', sans-serif !important;
+        font-size: 1rem;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        transition: border-color 0.2s;
     }
     .stTextArea textarea:focus {
-        border-color: var(--accent-color) !important;
-        box-shadow: 0 0 0 1px var(--accent-color) !important;
+        border-color: var(--primary-color) !important;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
     }
 
-    /* BUTTONS (HIGH END) */
+    /* BUTTONS (PRIMARY) */
     div.stButton > button {
-        background-color: var(--accent-color);
+        background-color: var(--primary-color);
         color: white;
-        border: 1px solid rgba(255,255,255,0.1);
-        font-family: var(--font-ui);
-        font-weight: 500;
-        padding: 0.6rem 1.2rem;
-        border-radius: 6px;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+        width: 100%;
+        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
         transition: all 0.2s;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
     div.stButton > button:hover {
-        background-color: var(--accent-hover);
-        border-color: rgba(255,255,255,0.2);
+        background-color: #1d4ed8;
         transform: translateY(-1px);
+        box-shadow: 0 6px 8px -2px rgba(37, 99, 235, 0.3);
     }
-    
+
     /* SIDEBAR */
     section[data-testid="stSidebar"] {
-        background-color: #020617; /* Darker than main */
+        background-color: #f8fafc;
         border-right: 1px solid var(--border-color);
     }
-    
-    /* ALERTS */
+
+    /* INFO BOXES */
     .stAlert {
-        background-color: var(--panel-color);
-        border: 1px solid var(--border-color);
-        color: var(--text-primary);
-    }
-    
-    /* CUSTOM CONTAINERS */
-    .app-header {
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 1.5rem;
-        margin-bottom: 2rem;
-    }
-    
-    .metric-card {
-        background: var(--panel-color);
-        border: 1px solid var(--border-color);
-        padding: 1rem;
+        background-color: #eff6ff;
+        border: 1px solid #dbeafe;
+        color: #1e40af;
         border-radius: 8px;
+    }
+    
+    /* STEPS INDICATOR */
+    .step-badge {
+        background-color: #f1f5f9;
+        color: #475569;
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        margin-right: 8px;
+        display: inline-block;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR: CONFIGURATION ---
+# --- SIDEBAR ---
 with st.sidebar:
-    st.markdown("<div style='margin-bottom: 2rem; font-weight: 600; font-size: 1.1rem; color: #fff;'>FreelanceFast<span style='color: #6366f1'>.ai</span></div>", unsafe_allow_html=True)
+    st.markdown("### ⚙️ Settings")
     
-    st.markdown('<span class="mono-label">CONFIGURATION</span>', unsafe_allow_html=True)
-    
-    # API Key Input (Minimalist)
     api_key = st.text_input(
-        "API Key (Google Gemini)",
+        "Google API Key",
         type="password",
-        placeholder="sk-...",
-        label_visibility="collapsed"
+        help="Paste your free Gemini API key here.",
+        placeholder="sk-..."
     )
-
-    # --- NEW: EASY ONBOARDING ---
-    with st.expander("❓ How to get a FREE API Key", expanded=False):
-        st.markdown("""
-        1. Go to **[Google AI Studio](https://aistudio.google.com/app/apikey)**.
-        2. Click **Create API Key**.
-        3. Copy the key and paste it here.
-        4. It's 100% free and valid for personal use.
-        """, unsafe_allow_html=True)
     
-    # Status Indicator
-    if api_key:
-        st.markdown("""
-        <div style='display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #4ade80; margin-top: 8px;'>
-            <div style='width: 8px; height: 8px; background: #4ade80; border-radius: 50%;'></div>
-            System Operational
-        </div>
-        """, unsafe_allow_html=True)
+    if not api_key:
+        st.info("👉 **Need a key?**\n[Get it for free here](https://aistudio.google.com/app/apikey)")
     else:
-        st.markdown("""
-        <div style='display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #94a3b8; margin-top: 8px;'>
-            <div style='width: 8px; height: 8px; background: #ef4444; border-radius: 50%;'></div>
-            Awaiting Key
-        </div>
-        """, unsafe_allow_html=True)
-        
+        st.success("✅ Key Connected")
+
     st.markdown("---")
-    st.markdown('<span class="mono-label">PARAMETERS</span>', unsafe_allow_html=True)
+    st.markdown("### 💎 Upgrade")
+    st.markdown("""
+    **Freelancer Pro Pack**
+    Unlock 50+ templates for difficult clients, rate increases, and scope creep.
     
-    tone = st.select_slider(
-        "Tone Intensity",
-        options=["Subtle", "Balanced", "Bold"],
-        value="Balanced"
-    )
-    
-    output_len = st.select_slider(
-        "Response Length",
-        options=["Concise", "Standard", "Detailed"],
-        value="Concise"
-    )
+    [Get it for $9 →](#)
+    """)
 
-    # --- MONETIZATION (The Upsell) ---
-    st.markdown("---")
-    st.markdown('<span class="mono-label">PREMIUM</span>', unsafe_allow_html=True)
-    st.info("🔥 **Want to close 2x more deals?**\nGet the Freelance Elite Prompt Pack for $9.")
-    st.markdown("[Unlock Templates →](https://gumroad.com)", unsafe_allow_html=True) # Change this link!
-
-# --- MAIN LAYOUT ---
-
-# Header Section
-st.markdown("""
-<div class="app-header">
-    <h1>Proposal Generator</h1>
-    <p style='color: #94a3b8; font-size: 1rem;'>Automated cover letter drafting for technical freelancers.</p>
-</div>
-""", unsafe_allow_html=True)
+# --- MAIN CONTENT ---
+st.markdown("<div style='text-align: center; margin-bottom: 2rem;'>", unsafe_allow_html=True)
+st.title("FreelanceFast")
+st.markdown("Create winning proposals for Upwork & Fiverr in seconds.")
+st.markdown("</div>", unsafe_allow_html=True)
 
 if not api_key:
-    st.info("Initialize system by providing a valid Google API Key in the sidebar.")
+    st.warning("🔒 **Please enter your API Key in the sidebar to start.**\n\nIt's free, secure, and takes 30 seconds.")
     st.stop()
 
-# Configure GenAI
+# Configure AI
 try:
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-1.5-pro-latest')
 except:
-    st.error("Authentication failed. Verify API Key.")
+    st.error("❌ Invalid API Key. Please check it.")
     st.stop()
 
-# Input Grid
-col_job, col_skills = st.columns(2)
+# STEP 1
+st.markdown('<h3><span class="step-badge">1</span>The Job</h3>', unsafe_allow_html=True)
+job_description = st.text_area(
+    "Paste the client's job description here",
+    height=200,
+    placeholder="e.g. Looking for a graphic designer to create a logo for a coffee shop...",
+    label_visibility="collapsed"
+)
 
-with col_job:
-    st.markdown('<span class="mono-label">INPUT // JOB SPECIFICATION</span>', unsafe_allow_html=True)
-    job_description = st.text_area(
-        "Job Spec",
-        height=300,
-        placeholder="Paste full job posting here...",
+# STEP 2
+st.markdown('<h3><span class="step-badge">2</span>Your Skills</h3>', unsafe_allow_html=True)
+user_skills = st.text_area(
+    "Paste your skills or brief bio",
+    height=150,
+    placeholder="e.g. 5 years experience in Adobe Illustrator, branding expert...",
+    label_visibility="collapsed"
+)
+
+# STEP 3
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown('<h3><span class="step-badge">3</span>Tone</h3>', unsafe_allow_html=True)
+    tone = st.selectbox(
+        "Choose tone",
+        ["Professional & Direct", "Friendly & Casual", "Confident & Expert"],
         label_visibility="collapsed"
     )
-
-with col_skills:
-    st.markdown('<span class="mono-label">INPUT // CANDIDATE PROFILE</span>', unsafe_allow_html=True)
-    user_skills = st.text_area(
-        "Candidate Profile",
-        height=300,
-        placeholder="List technical stack, years of experience, and key achievements...",
+with col2:
+    st.markdown('<h3><span class="step-badge">4</span>Length</h3>', unsafe_allow_html=True)
+    length = st.selectbox(
+        "Choose length",
+        ["Short & Punchy", "Standard", "Detailed"],
         label_visibility="collapsed"
     )
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Action Area
-col_btn, col_status = st.columns([1, 4])
-
-with col_btn:
-    generate_btn = st.button("Execute Generation", use_container_width=True)
-
-# Logic & Output
-if generate_btn:
+if st.button("✨ Write Proposal"):
     if not job_description or not user_skills:
-        st.toast("Error: Missing input parameters.", icon="⚠️")
+        st.error("Please fill in both the Job Description and Your Skills.")
     else:
-        with st.spinner("Processing context..."):
+        with st.spinner("Writing your proposal..."):
             try:
-                # System Prompt (Strict, Professional)
                 prompt = f"""
-                ROLE: Expert Technical Copywriter for Freelance Proposals.
-                OBJECTIVE: Compose a high-conversion cover letter for a freelance platform (Upwork/Toptal).
+                Write a freelance proposal for Upwork/Fiverr.
                 
-                INPUT DATA:
-                - Job Spec: {job_description}
-                - Candidate Profile: {user_skills}
+                CONTEXT:
+                - Job: {job_description}
+                - Me: {user_skills}
                 - Tone: {tone}
-                - Length: {output_len}
+                - Length: {length}
                 
-                CONSTRAINTS:
-                1. No fluff. Get straight to the value proposition.
-                2. Demonstrate understanding of the client's specific technical problem.
-                3. Cite specific matching experience from the candidate profile.
-                4. Professional, confident, but not arrogant tone.
-                5. Call to Action: Clear availability for a call.
+                RULES:
+                1. Start with a hook that proves I read the job.
+                2. Explain WHY I am the best fit.
+                3. Mention specific skills I have.
+                4. End with a question or call to action.
+                5. Do NOT use placeholders like [Name].
                 
-                OUTPUT FORMAT:
-                Plain text only. No markdown headers.
+                OUTPUT:
+                Plain text only.
                 """
                 
                 response = model.generate_content(prompt)
                 
                 st.markdown("---")
-                st.markdown('<span class="mono-label">OUTPUT // GENERATED PROPOSAL</span>', unsafe_allow_html=True)
-                
-                # Output Container
-                st.text_area(
-                    "Result",
-                    value=response.text,
-                    height=400,
-                    label_visibility="collapsed"
-                )
-                
-                st.success("Generation complete. 128ms")
+                st.success("🎉 Proposal Ready!")
+                st.text_area("Copy and paste this:", value=response.text, height=350)
                 
             except Exception as e:
-                st.error(f"Runtime Error: {str(e)}")
+                st.error(f"Error: {str(e)}")
 
-# Minimal Footer
 st.markdown("""
-<div style='text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #334155; color: #64748b; font-size: 0.8rem; font-family: "Inter", sans-serif;'>
-    FreelanceFast v1.0.2 • System Status: Operational
+<div style='text-align: center; color: #94a3b8; font-size: 0.8rem; margin-top: 3rem;'>
+    FreelanceFast © 2024 • Open Source
 </div>
 """, unsafe_allow_html=True)
