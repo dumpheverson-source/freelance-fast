@@ -150,7 +150,7 @@ with st.sidebar:
     - Scripts to negotiate higher rates
     - "Copy/Paste" responses for interviews
     
-    **[👉 Get the Pack for $9](#)**
+    **[👉 Get the Pack for $9](https://dumpsterfire38.gumroad.com/l/freelance-elite-pack)**
     """)
 
 # --- MAIN CONTENT ---
