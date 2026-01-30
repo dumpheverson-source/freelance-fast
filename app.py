@@ -4,247 +4,268 @@ import os
 
 # --- PAGE CONFIG ---
 st.set_page_config(
-    page_title="FreelanceFast.ai",
+    page_title="FreelanceFast",
     page_icon="⚡",
     layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://twitter.com/seutwitter',
-        'Report a bug': "https://github.com/dumpheverson-source/freelance-fast/issues",
-        'About': "FreelanceFast.ai helps you win more jobs on Upwork & Fiverr."
-    }
+    initial_sidebar_state="expanded"
 )
 
-# --- CUSTOM CSS (THE "HUMAN" TOUCH) ---
+# --- ADVANCED CSS (DEV/SAAS AESTHETIC) ---
 st.markdown("""
 <style>
-    /* Import Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    /* Import Fonts: Inter (UI) & JetBrains Mono (Code/Data) */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
-    /* Global Styles */
-    html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
+    /* BASE THEME */
+    :root {
+        --bg-color: #0f172a;
+        --panel-color: #1e293b;
+        --border-color: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --accent-color: #6366f1; /* Indigo 500 */
+        --accent-hover: #4f46e5; /* Indigo 600 */
+        --font-ui: 'Inter', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
     }
 
-    /* Titles */
-    h1 {
-        font-weight: 700;
-        color: #ffffff;
-        font-size: 3rem !important;
+    /* GLOBAL RESET */
+    .stApp {
+        background-color: var(--bg-color);
+        font-family: var(--font-ui);
+        color: var(--text-primary);
+    }
+    
+    /* REMOVE STREAMLIT BLOAT */
+    header {visibility: hidden;}
+    .css-1rs6os {visibility: hidden;}
+    .css-17ziqus {visibility: hidden;}
+    
+    /* TYPOGRAPHY */
+    h1, h2, h3 {
+        font-family: var(--font-ui);
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+    }
+    
+    .mono-label {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
         margin-bottom: 0.5rem;
-    }
-    h3 {
-        font-weight: 600;
-        color: #e0e0e0;
+        display: block;
     }
 
-    /* Main Container Padding */
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 5rem;
-        max-width: 900px;
-    }
-
-    /* Cards (Input Areas) */
+    /* INPUT FIELDS (TERMINAL STYLE) */
     .stTextArea textarea {
-        background-color: #1e1e1e;
-        border: 1px solid #333;
-        border-radius: 8px;
-        color: #f0f0f0;
-        padding: 10px;
+        background-color: var(--panel-color) !important;
+        border: 1px solid var(--border-color) !important;
+        color: var(--text-primary) !important;
+        font-family: var(--font-mono) !important; /* Code font for inputs */
+        font-size: 0.9rem;
+        border-radius: 6px;
+        transition: border 0.2s ease;
     }
     .stTextArea textarea:focus {
-        border-color: #4CAF50;
-        box-shadow: 0 0 0 1px #4CAF50;
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 0 1px var(--accent-color) !important;
     }
 
-    /* The Generate Button */
+    /* BUTTONS (HIGH END) */
     div.stButton > button {
-        background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+        background-color: var(--accent-color);
         color: white;
-        border: none;
-        padding: 0.75rem 2rem;
-        border-radius: 8px;
-        font-size: 1.2rem;
-        font-weight: 600;
-        width: 100%;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 14px 0 rgba(76, 175, 80, 0.39);
+        border: 1px solid rgba(255,255,255,0.1);
+        font-family: var(--font-ui);
+        font-weight: 500;
+        padding: 0.6rem 1.2rem;
+        border-radius: 6px;
+        transition: all 0.2s;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     }
     div.stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px 0 rgba(76, 175, 80, 0.23);
-        background: linear-gradient(90deg, #45a049 0%, #4CAF50 100%);
-        border: none;
-        color: white;
+        background-color: var(--accent-hover);
+        border-color: rgba(255,255,255,0.2);
+        transform: translateY(-1px);
     }
-    div.stButton > button:active {
-        transform: translateY(1px);
-    }
-
-    /* Sidebar Styling */
+    
+    /* SIDEBAR */
     section[data-testid="stSidebar"] {
-        background-color: #111;
-        border-right: 1px solid #222;
+        background-color: #020617; /* Darker than main */
+        border-right: 1px solid var(--border-color);
     }
     
-    /* Success/Warning Boxes */
+    /* ALERTS */
     .stAlert {
-        border-radius: 8px;
+        background-color: var(--panel-color);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
     }
     
-    /* Custom Footer */
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: #0e1117;
-        color: #666;
-        text-align: center;
-        padding: 10px;
-        font-size: 0.8rem;
-        border-top: 1px solid #222;
-        z-index: 999;
+    /* CUSTOM CONTAINERS */
+    .app-header {
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .metric-card {
+        background: var(--panel-color);
+        border: 1px solid var(--border-color);
+        padding: 1rem;
+        border-radius: 8px;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR (CONFIG) ---
+# --- SIDEBAR: CONFIGURATION ---
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/4712/4712109.png", width=60) # Placeholder logo
-    st.title("Settings")
+    st.markdown("<div style='margin-bottom: 2rem; font-weight: 600; font-size: 1.1rem; color: #fff;'>FreelanceFast<span style='color: #6366f1'>.ai</span></div>", unsafe_allow_html=True)
     
-    st.markdown("### 🔑 API Access")
+    st.markdown('<span class="mono-label">CONFIGURATION</span>', unsafe_allow_html=True)
+    
+    # API Key Input (Minimalist)
     api_key = st.text_input(
-        "Google API Key",
+        "API Key (Google Gemini)",
         type="password",
-        placeholder="Paste your key here...",
-        help="Your key is processed locally in memory. We never store it."
+        placeholder="sk-...",
+        label_visibility="collapsed"
     )
     
-    if not api_key:
-        st.warning("👉 You need a free Google Gemini API key to start.")
-        st.markdown("[Get a free key here](https://aistudio.google.com/app/apikey)", unsafe_allow_html=True)
+    # Status Indicator
+    if api_key:
+        st.markdown("""
+        <div style='display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #4ade80; margin-top: 8px;'>
+            <div style='width: 8px; height: 8px; background: #4ade80; border-radius: 50%;'></div>
+            System Operational
+        </div>
+        """, unsafe_allow_html=True)
     else:
-        st.success("Connected & Secure 🔒")
-
+        st.markdown("""
+        <div style='display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: #94a3b8; margin-top: 8px;'>
+            <div style='width: 8px; height: 8px; background: #ef4444; border-radius: 50%;'></div>
+            Awaiting Key
+        </div>
+        """, unsafe_allow_html=True)
+        
     st.markdown("---")
-    st.markdown("### 🎯 Pro Tips")
-    st.info(
-        "**1. Be Specific:** Paste the full job description.\n\n"
-        "**2. Be Honest:** Don't invent skills you don't have.\n\n"
-        "**3. Edit:** Always read before sending."
+    st.markdown('<span class="mono-label">PARAMETERS</span>', unsafe_allow_html=True)
+    
+    tone = st.select_slider(
+        "Tone Intensity",
+        options=["Subtle", "Balanced", "Bold"],
+        value="Balanced"
     )
     
-    st.markdown("---")
-    st.caption("Version 1.0.0 • Open Source")
+    output_len = st.select_slider(
+        "Response Length",
+        options=["Concise", "Standard", "Detailed"],
+        value="Concise"
+    )
 
-# --- MAIN CONTENT ---
+# --- MAIN LAYOUT ---
 
-# Header
-st.title("⚡ FreelanceFast.ai")
+# Header Section
 st.markdown("""
-<div style='font-size: 1.2rem; color: #aaa; margin-bottom: 2rem;'>
-    The unfair advantage for freelancers. Generate <b>highly persuasive</b> cover letters in seconds.
+<div class="app-header">
+    <h1>Proposal Generator</h1>
+    <p style='color: #94a3b8; font-size: 1rem;'>Automated cover letter drafting for technical freelancers.</p>
 </div>
 """, unsafe_allow_html=True)
 
 if not api_key:
-    st.image("https://raw.githubusercontent.com/dumpheverson-source/freelance-fast/main/assets/banner_placeholder.png", caption="Add your API key in the sidebar to unlock 🔓") 
+    st.info("Initialize system by providing a valid Google API Key in the sidebar.")
     st.stop()
 
-# Configure Model
+# Configure GenAI
 try:
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-1.5-pro-latest')
-except Exception as e:
-    st.error(f"⚠️ Invalid API Key. Please check it and try again.")
+except:
+    st.error("Authentication failed. Verify API Key.")
     st.stop()
 
-# Input Section (Two Columns)
-col1, col2 = st.columns(2, gap="large")
+# Input Grid
+col_job, col_skills = st.columns(2)
 
-with col1:
-    st.markdown("### 1️⃣ The Job")
+with col_job:
+    st.markdown('<span class="mono-label">INPUT // JOB SPECIFICATION</span>', unsafe_allow_html=True)
     job_description = st.text_area(
-        "Paste the job description here",
+        "Job Spec",
         height=300,
-        placeholder="e.g. 'Looking for a Python developer to build a scraper...'"
+        placeholder="Paste full job posting here...",
+        label_visibility="collapsed"
     )
 
-with col2:
-    st.markdown("### 2️⃣ Your Edge")
+with col_skills:
+    st.markdown('<span class="mono-label">INPUT // CANDIDATE PROFILE</span>', unsafe_allow_html=True)
     user_skills = st.text_area(
-        "Paste your skills or resume summary",
+        "Candidate Profile",
         height=300,
-        placeholder="e.g. 'Senior Python Dev with 5 years exp in Selenium, BS4...'"
-    )
-
-# Options
-st.markdown("### 3️⃣ Fine-tuning")
-tone_col, length_col = st.columns(2)
-with tone_col:
-    tone = st.selectbox(
-        "Tone of Voice",
-        ["Professional & Confident", "Casual & Friendly", "Direct & No-nonsense", "Enthusiastic & Eager"],
-        index=0
-    )
-with length_col:
-    length = st.radio(
-        "Length",
-        ["Short (Impactful)", "Medium (Standard)", "Long (Detailed)"],
-        horizontal=True
+        placeholder="List technical stack, years of experience, and key achievements...",
+        label_visibility="collapsed"
     )
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Generate Button
-if st.button("🚀 Write My Cover Letter"):
+# Action Area
+col_btn, col_status = st.columns([1, 4])
+
+with col_btn:
+    generate_btn = st.button("Execute Generation", use_container_width=True)
+
+# Logic & Output
+if generate_btn:
     if not job_description or not user_skills:
-        st.error("⚠️ Please fill in both the Job Description and Your Skills.")
+        st.toast("Error: Missing input parameters.", icon="⚠️")
     else:
-        with st.spinner("🧠 Analyzing job requirements... Drafting proposal..."):
+        with st.spinner("Processing context..."):
             try:
-                # Advanced Prompt Engineering
+                # System Prompt (Strict, Professional)
                 prompt = f"""
-                Act as a world-class copywriter for top-tier freelancers. Write a cover letter for Upwork/Freelancer.com.
+                ROLE: Expert Technical Copywriter for Freelance Proposals.
+                OBJECTIVE: Compose a high-conversion cover letter for a freelance platform (Upwork/Toptal).
                 
-                CONTEXT:
-                - Job: {job_description}
-                - My Skills: {user_skills}
+                INPUT DATA:
+                - Job Spec: {job_description}
+                - Candidate Profile: {user_skills}
                 - Tone: {tone}
-                - Length: {length}
+                - Length: {output_len}
                 
-                RULES:
-                1. HOOK: Start with a custom hook that proves I read the job post. No generic "I am writing to apply..."
-                2. VALUE: Focus on how I solve THEIR problem, not just listing my skills.
-                3. PROOF: Mention relevant experience from my skills that matches their needs.
-                4. CTA: End with a low-friction call to action (e.g., "Ready to chat?").
-                5. FORMAT: Use short paragraphs. No walls of text.
-                6. Do not use placeholders like [Your Name] unless strictly needed.
+                CONSTRAINTS:
+                1. No fluff. Get straight to the value proposition.
+                2. Demonstrate understanding of the client's specific technical problem.
+                3. Cite specific matching experience from the candidate profile.
+                4. Professional, confident, but not arrogant tone.
+                5. Call to Action: Clear availability for a call.
                 
-                OUTPUT:
-                Just the cover letter text. No preamble.
+                OUTPUT FORMAT:
+                Plain text only. No markdown headers.
                 """
                 
                 response = model.generate_content(prompt)
                 
                 st.markdown("---")
-                st.subheader("🎉 Your Draft is Ready")
-                st.success("Copy the text below and tweak it if needed!")
+                st.markdown('<span class="mono-label">OUTPUT // GENERATED PROPOSAL</span>', unsafe_allow_html=True)
                 
-                st.text_area("Final Result", value=response.text, height=450)
+                # Output Container
+                st.text_area(
+                    "Result",
+                    value=response.text,
+                    height=400,
+                    label_visibility="collapsed"
+                )
                 
-                # Feedback/Copy helpers
-                st.caption("💡 Tip: Add a link to your portfolio before sending!")
+                st.success("Generation complete. 128ms")
                 
             except Exception as e:
-                st.error(f"Something went wrong: {str(e)}")
+                st.error(f"Runtime Error: {str(e)}")
 
-# Footer
+# Minimal Footer
 st.markdown("""
-<div class="footer">
-    Built for the hustle. FreelanceFast.ai © 2024
+<div style='text-align: center; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #334155; color: #64748b; font-size: 0.8rem; font-family: "Inter", sans-serif;'>
+    FreelanceFast v1.0.2 • System Status: Operational
 </div>
 """, unsafe_allow_html=True)
