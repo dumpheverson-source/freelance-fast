@@ -4,248 +4,287 @@ import os
 
 # --- PAGE CONFIG ---
 st.set_page_config(
-    page_title="FreelanceFast",
-    page_icon="⚡",
-    layout="centered",
-    initial_sidebar_state="expanded"
+    page_title="FreelanceFast.ai",
+    page_icon="🚀",
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# --- CLEAN SAAS CSS (Notion/Linear Style) ---
+# --- HIGH-END SAAS CSS ---
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
 
-    /* BASE THEME */
     :root {
-        --primary-color: #2563eb; /* Royal Blue */
-        --bg-color: #ffffff;
-        --text-color: #0f172a;
-        --secondary-text: #64748b;
-        --border-color: #e2e8f0;
+        --primary: #4F46E5; /* Indigo 600 */
+        --primary-hover: #4338ca;
+        --bg-color: #F8FAFC; /* Slate 50 */
+        --card-bg: #FFFFFF;
+        --text-dark: #0F172A;
+        --text-gray: #64748B;
+        --border: #E2E8F0;
     }
 
     /* GLOBAL RESET */
     .stApp {
         background-color: var(--bg-color);
         font-family: 'Inter', sans-serif;
-        color: var(--text-color);
     }
     
-    /* HIDE STREAMLIT BRANDING */
-    #MainMenu {visibility: hidden;}
-    header {visibility: hidden;}
-    footer {visibility: hidden;}
+    /* REMOVE BLOAT */
+    #MainMenu, header, footer {visibility: hidden;}
+    .block-container {padding-top: 2rem; max-width: 1000px;}
 
-    /* TYPOGRAPHY */
-    h1 {
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
+    /* HERO SECTION */
+    .hero-container {
+        text-align: center;
+        padding: 4rem 1rem;
+        margin-bottom: 2rem;
     }
-    h3 {
-        font-weight: 600;
-        font-size: 1.1rem;
-        margin-top: 1.5rem;
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        margin-bottom: 1rem;
     }
-    p {
-        color: var(--secondary-text);
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-gray);
+        max-width: 600px;
+        margin: 0 auto;
         line-height: 1.6;
     }
-
-    /* INPUT FIELDS (CLEAN) */
-    .stTextArea textarea {
-        border: 1px solid var(--border-color) !important;
-        border-radius: 8px;
-        padding: 12px;
-        font-family: 'Inter', sans-serif !important;
-        font-size: 1rem;
-        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        transition: border-color 0.2s;
-    }
-    .stTextArea textarea:focus {
-        border-color: var(--primary-color) !important;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+    .highlight {
+        color: var(--primary);
+        background: rgba(79, 70, 229, 0.1);
+        padding: 0 0.5rem;
+        border-radius: 4px;
     }
 
-    /* BUTTONS (PRIMARY) */
-    div.stButton > button {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.75rem 1.5rem;
-        font-weight: 600;
-        font-size: 1rem;
-        width: 100%;
-        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
-        transition: all 0.2s;
+    /* FEATURE GRID */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+        text-align: center;
     }
-    div.stButton > button:hover {
-        background-color: #1d4ed8;
-        transform: translateY(-1px);
-        box-shadow: 0 6px 8px -2px rgba(37, 99, 235, 0.3);
+    .feature-card {
+        padding: 1.5rem;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 12px;
     }
+    .feature-icon {font-size: 2rem; margin-bottom: 0.5rem;}
+    .feature-title {font-weight: 700; color: var(--text-dark);}
+    .feature-text {font-size: 0.9rem; color: var(--text-gray);}
 
-    /* SIDEBAR */
-    section[data-testid="stSidebar"] {
-        background-color: #f8fafc;
-        border-right: 1px solid var(--border-color);
-    }
-
-    /* INFO BOXES */
-    .stAlert {
-        background-color: #eff6ff;
-        border: 1px solid #dbeafe;
-        color: #1e40af;
-        border-radius: 8px;
+    /* APP CONTAINER (THE TOOL) */
+    .tool-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+        margin-bottom: 4rem;
     }
     
-    /* STEPS INDICATOR */
-    .step-badge {
-        background-color: #f1f5f9;
-        color: #475569;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        margin-right: 8px;
-        display: inline-block;
+    /* INPUT STYLING */
+    label {
+        font-weight: 600 !important;
+        color: var(--text-dark) !important;
+        font-size: 0.95rem !important;
+        margin-bottom: 0.5rem !important;
     }
+    .stTextArea textarea {
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+        padding: 12px !important;
+        font-size: 1rem !important;
+        transition: all 0.2s;
+        background-color: #FAFAFA !important;
+    }
+    .stTextArea textarea:focus {
+        border-color: var(--primary) !important;
+        background-color: #FFF !important;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1) !important;
+    }
+    
+    /* CTA BUTTON */
+    div.stButton > button {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        width: 100%;
+        transition: transform 0.2s, background 0.2s;
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+    }
+    div.stButton > button:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+    }
+
+    /* SALES BANNER */
+    .sales-banner {
+        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 12px;
+        text-align: center;
+        margin-top: 2rem;
+    }
+    .sales-banner h3 {color: white !important; margin: 0 0 0.5rem 0;}
+    .sales-banner p {color: rgba(255,255,255,0.9) !important; margin-bottom: 1.5rem;}
+    .sales-btn {
+        background: white;
+        color: #4F46E5;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-block;
+        transition: transform 0.2s;
+    }
+    .sales-btn:hover {transform: scale(1.05);}
 </style>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR ---
+# --- SIDEBAR (CONFIG) ---
 with st.sidebar:
-    st.markdown("### 🔑 Step 1: Get Access")
-    
-    # TUTORIAL DESTAQUE (CORREÇÃO)
-    st.info("""
-    **Need a Free Key?**
-    1. [Click here to open Google AI](https://aistudio.google.com/app/apikey)
-    2. Click blue button **"Create API Key"**
-    3. Copy the code that starts with `AIza...`
-    4. Paste it below 👇
-    """)
+    st.image("https://cdn-icons-png.flaticon.com/512/1005/1005141.png", width=50)
+    st.markdown("### 🔑 API Key Setup")
     
     api_key = st.text_input(
-        "Paste Key Here",
+        "Enter Gemini API Key",
         type="password",
-        help="Paste your free Gemini API key here.",
+        help="It's free. See tutorial above.",
         placeholder="AIzaSy..."
     )
     
-    if api_key:
-        st.success("✅ Connected! You are ready.")
+    with st.expander("❓ How to get a FREE Key", expanded=True):
+        st.markdown("""
+        1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey)
+        2. Click **Create API Key**
+        3. Copy & Paste here.
+        """)
+        
+    st.divider()
+    st.caption("FreelanceFast v2.0 • Secure & Private")
 
-    st.markdown("---")
-    st.markdown("### 💎 Step 2: Pro Level")
-    st.warning("""
-    **🔥 Want to earn more?**
-    
-    Don't just send a proposal. Send a **winning strategy**.
-    
-    Get our **"Freelance Elite Pack"**:
-    - 50+ Templates for tough clients
-    - Scripts to negotiate higher rates
-    - "Copy/Paste" responses for interviews
-    
-    **[👉 Get the Pack for $9](https://dumpsterfire38.gumroad.com/l/freelance-elite-pack)**
-    """)
+# --- HERO SECTION ---
+st.markdown("""
+<div class="hero-container">
+    <div class="hero-title">Stop losing jobs to<br><span class="highlight">generic proposals.</span></div>
+    <div class="hero-subtitle">
+        Generate persuasive, custom-tailored cover letters for Upwork & Fiverr in seconds. 
+        Trained on $100k+ earning profiles.
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
-# --- MAIN CONTENT ---
-st.markdown("<div style='text-align: center; margin-bottom: 2rem;'>", unsafe_allow_html=True)
-st.title("FreelanceFast")
-st.markdown("Create winning proposals for Upwork & Fiverr in seconds.")
-st.markdown("</div>", unsafe_allow_html=True)
+# --- VALUE GRID ---
+col_f1, col_f2, col_f3 = st.columns(3)
+with col_f1:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Instant Speed</div>
+        <div class="feature-text">Analyze job posts and write 300 words in under 5 seconds.</div>
+    </div>
+    """, unsafe_allow_html=True)
+with col_f2:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <div class="feature-title">Psychology First</div>
+        <div class="feature-text">Uses persuasion hooks, not just "AI summary" text.</div>
+    </div>
+    """, unsafe_allow_html=True)
+with col_f3:
+    st.markdown("""
+    <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">100% Secure</div>
+        <div class="feature-text">BYOK Model. Your data and API keys never leave your browser.</div>
+    </div>
+    """, unsafe_allow_html=True)
 
-# (Removido o bloqueio visual st.stop aqui)
+# --- THE TOOL (CARD) ---
+st.markdown('<div class="tool-card">', unsafe_allow_html=True)
 
-# Configure AI (Lazy Loading)
-if api_key:
+if not api_key:
+    st.warning("⚠️ To start the engine, please enter your **Google API Key** in the sidebar (It's free!).")
+else:
     try:
         genai.configure(api_key=api_key)
         model = genai.GenerativeModel('gemini-1.5-pro-latest')
     except:
-        pass # Handle error later on button click
+        pass
 
-# STEP 1
-st.markdown('<h3><span class="step-badge">1</span>The Job</h3>', unsafe_allow_html=True)
-job_description = st.text_area(
-    "Paste the client's job description here",
-    height=200,
-    placeholder="e.g. Looking for a graphic designer to create a logo for a coffee shop...",
+c1, c2 = st.columns(2)
+with c1:
+    job_desc = st.text_area("📋 Paste the Job Description", height=250, placeholder="Client is looking for...")
+with c2:
+    my_skills = st.text_area("👤 Your Skills / Bio", height=250, placeholder="I am a Python expert with...")
+
+# Tone Selector (Visual)
+st.write("")
+st.markdown("**Select Strategy:**")
+tone = st.radio(
+    "Select Strategy",
+    ["💼 Corporate (Safe)", "🚀 Startup (Energetic)", "🧠 Expert (Direct)"],
+    horizontal=True,
     label_visibility="collapsed"
 )
 
-# STEP 2
-st.markdown('<h3><span class="step-badge">2</span>Your Skills</h3>', unsafe_allow_html=True)
-user_skills = st.text_area(
-    "Paste your skills or brief bio",
-    height=150,
-    placeholder="e.g. 5 years experience in Adobe Illustrator, branding expert...",
-    label_visibility="collapsed"
-)
+st.write("")
+st.write("")
 
-# STEP 3
-col1, col2 = st.columns(2)
-with col1:
-    st.markdown('<h3><span class="step-badge">3</span>Tone</h3>', unsafe_allow_html=True)
-    tone = st.selectbox(
-        "Choose tone",
-        ["Professional & Direct", "Friendly & Casual", "Confident & Expert"],
-        label_visibility="collapsed"
-    )
-with col2:
-    st.markdown('<h3><span class="step-badge">4</span>Length</h3>', unsafe_allow_html=True)
-    length = st.selectbox(
-        "Choose length",
-        ["Short & Punchy", "Standard", "Detailed"],
-        label_visibility="collapsed"
-    )
-
-st.markdown("<br>", unsafe_allow_html=True)
-
-if st.button("✨ Write Proposal"):
+if st.button("🚀 Generate Winning Proposal"):
     if not api_key:
-        st.error("🔒 Please enter your Google API Key in the sidebar to generate results. It's free!")
-        st.sidebar.markdown("### ⬅️ Enter Key Here")
-    elif not job_description or not user_skills:
-        st.error("Please fill in both the Job Description and Your Skills.")
+        st.error("Please add your API Key in the sidebar first!")
+    elif not job_desc or not my_skills:
+        st.error("Please fill in both fields.")
     else:
-        with st.spinner("Writing your proposal..."):
+        with st.spinner("Analyzing client psychology... Drafting..."):
             try:
+                # PROMPT ENGINEERING
+                t_map = {"💼 Corporate (Safe)": "Professional", "🚀 Startup (Energetic)": "Enthusiastic", "🧠 Expert (Direct)": "Concise"}
+                
                 prompt = f"""
-                Write a freelance proposal for Upwork/Fiverr.
+                Write a cover letter for Upwork.
+                Job: {job_desc}
+                Me: {my_skills}
+                Tone: {t_map.get(tone)}
                 
-                CONTEXT:
-                - Job: {job_description}
-                - Me: {user_skills}
-                - Tone: {tone}
-                - Length: {length}
-                
-                RULES:
-                1. Start with a hook that proves I read the job.
-                2. Explain WHY I am the best fit.
-                3. Mention specific skills I have.
-                4. End with a question or call to action.
-                5. Do NOT use placeholders like [Name].
-                
-                OUTPUT:
-                Plain text only.
+                Structure:
+                1. Hook (Prove I read it)
+                2. Solution (How I fix their pain)
+                3. Call to Action (Soft close)
+                No placeholders. Plain text.
                 """
                 
-                response = model.generate_content(prompt)
+                res = model.generate_content(prompt)
                 
-                st.markdown("---")
-                st.success("🎉 Proposal Ready!")
-                st.text_area("Copy and paste this:", value=response.text, height=350)
+                st.success("Draft Generated!")
+                st.text_area("Copy your text:", value=res.text, height=350)
                 
             except Exception as e:
-                st.error(f"Error: {str(e)}")
+                st.error(f"Error: {e}")
 
+st.markdown('</div>', unsafe_allow_html=True) # End tool-card
+
+# --- SALES SECTION (BOTTOM) ---
 st.markdown("""
-<div style='text-align: center; color: #94a3b8; font-size: 0.8rem; margin-top: 3rem;'>
-    FreelanceFast © 2024 • Open Source
+<div class="sales-banner">
+    <h3>🔥 Want to close 2x more deals?</h3>
+    <p>Get the "Freelance Elite Pack" — 50+ Copy-Paste scripts for negotiation, difficult clients, and rate hikes.</p>
+    <a href="https://dumpsterfire38.gumroad.com/l/freelance-elite-pack" target="_blank" class="sales-btn">Unlock Pack for $9</a>
 </div>
 """, unsafe_allow_html=True)
