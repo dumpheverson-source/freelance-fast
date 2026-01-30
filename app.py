@@ -117,27 +117,40 @@ st.markdown("""
 
 # --- SIDEBAR ---
 with st.sidebar:
-    st.markdown("### ⚙️ Settings")
+    st.markdown("### 🔑 Step 1: Get Access")
+    
+    # TUTORIAL DESTAQUE (CORREÇÃO)
+    st.info("""
+    **Need a Free Key?**
+    1. [Click here to open Google AI](https://aistudio.google.com/app/apikey)
+    2. Click blue button **"Create API Key"**
+    3. Copy the code that starts with `AIza...`
+    4. Paste it below 👇
+    """)
     
     api_key = st.text_input(
-        "Google API Key",
+        "Paste Key Here",
         type="password",
         help="Paste your free Gemini API key here.",
-        placeholder="sk-..."
+        placeholder="AIzaSy..."
     )
     
-    if not api_key:
-        st.info("👉 **Need a key?**\n[Get it for free here](https://aistudio.google.com/app/apikey)")
-    else:
-        st.success("✅ Key Connected")
+    if api_key:
+        st.success("✅ Connected! You are ready.")
 
     st.markdown("---")
-    st.markdown("### 💎 Upgrade")
-    st.markdown("""
-    **Freelancer Pro Pack**
-    Unlock 50+ templates for difficult clients, rate increases, and scope creep.
+    st.markdown("### 💎 Step 2: Pro Level")
+    st.warning("""
+    **🔥 Want to earn more?**
     
-    [Get it for $9 →](#)
+    Don't just send a proposal. Send a **winning strategy**.
+    
+    Get our **"Freelance Elite Pack"**:
+    - 50+ Templates for tough clients
+    - Scripts to negotiate higher rates
+    - "Copy/Paste" responses for interviews
+    
+    **[👉 Get the Pack for $9](#)**
     """)
 
 # --- MAIN CONTENT ---
