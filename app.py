@@ -94,22 +94,31 @@ st.markdown("""
     /* INPUT STYLING */
     label {
         font-weight: 600 !important;
-        color: var(--text-dark) !important;
+        color: #0F172A !important;
         font-size: 0.95rem !important;
         margin-bottom: 0.5rem !important;
     }
     .stTextArea textarea {
-        border: 1px solid var(--border) !important;
+        border: 1px solid #E2E8F0 !important;
         border-radius: 8px !important;
         padding: 12px !important;
         font-size: 1rem !important;
         transition: all 0.2s;
-        background-color: #FAFAFA !important;
+        background-color: #FFFFFF !important;
+        color: #0F172A !important; /* FORÇANDO COR PRETA */
+        caret-color: #4F46E5 !important;
     }
     .stTextArea textarea:focus {
-        border-color: var(--primary) !important;
-        background-color: #FFF !important;
+        border-color: #4F46E5 !important;
+        background-color: #FFFFFF !important;
         box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1) !important;
+        color: #0F172A !important;
+    }
+    
+    /* Preenchimento dos placeholders */
+    ::placeholder {
+        color: #94a3b8 !important;
+        opacity: 1 !important;
     }
     
     /* CTA BUTTON */
