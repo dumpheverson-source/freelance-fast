@@ -31,8 +31,9 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
     
-    /* REMOVE BLOAT */
-    #MainMenu, header, footer {visibility: hidden;}
+    /* REMOVE BLOAT BUT KEEP SIDEBAR TOGGLE */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
     .block-container {padding-top: 2rem; max-width: 1000px;}
 
     /* HERO SECTION */
