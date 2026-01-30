@@ -7,7 +7,7 @@ st.set_page_config(
     page_title="FreelanceFast.ai",
     page_icon="🚀",
     layout="wide",
-    initial_sidebar_state="collapsed"
+    initial_sidebar_state="expanded"
 )
 
 # --- HIGH-END SAAS CSS ---
@@ -224,8 +224,8 @@ with col_f3:
     </div>
     """, unsafe_allow_html=True)
 
-# --- THE TOOL (CARD) ---
-st.markdown('<div class="tool-card">', unsafe_allow_html=True)
+# --- THE TOOL ---
+st.write("") # Spacer
 
 if not api_key:
     st.warning("⚠️ To start the engine, please enter your **Google API Key** in the sidebar (It's free!).")
@@ -236,6 +236,7 @@ else:
     except:
         pass
 
+# Main Inputs
 c1, c2 = st.columns(2)
 with c1:
     job_desc = st.text_area("📋 Paste the Job Description", height=250, placeholder="Client is looking for...")
@@ -286,8 +287,6 @@ if st.button("🚀 Generate Winning Proposal"):
                 
             except Exception as e:
                 st.error(f"Error: {e}")
-
-st.markdown('</div>', unsafe_allow_html=True) # End tool-card
 
 # --- SALES SECTION (BOTTOM) ---
 st.markdown("""
