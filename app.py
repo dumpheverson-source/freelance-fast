@@ -133,6 +133,15 @@ with st.sidebar:
         placeholder="sk-...",
         label_visibility="collapsed"
     )
+
+    # --- NEW: EASY ONBOARDING ---
+    with st.expander("❓ How to get a FREE API Key", expanded=False):
+        st.markdown("""
+        1. Go to **[Google AI Studio](https://aistudio.google.com/app/apikey)**.
+        2. Click **Create API Key**.
+        3. Copy the key and paste it here.
+        4. It's 100% free and valid for personal use.
+        """, unsafe_allow_html=True)
     
     # Status Indicator
     if api_key:
@@ -164,6 +173,12 @@ with st.sidebar:
         options=["Concise", "Standard", "Detailed"],
         value="Concise"
     )
+
+    # --- MONETIZATION (The Upsell) ---
+    st.markdown("---")
+    st.markdown('<span class="mono-label">PREMIUM</span>', unsafe_allow_html=True)
+    st.info("🔥 **Want to close 2x more deals?**\nGet the Freelance Elite Prompt Pack for $9.")
+    st.markdown("[Unlock Templates →](https://gumroad.com)", unsafe_allow_html=True) # Change this link!
 
 # --- MAIN LAYOUT ---
 
